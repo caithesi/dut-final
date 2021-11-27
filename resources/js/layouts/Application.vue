@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <nav-bar />
     <main-side-bar />
 
@@ -8,12 +8,12 @@
       <!-- Content Header (Page header) -->
 
       <!-- /.content-header -->
-      <content-header />
+      <content-header :headerPage="headerPage" />
       <!-- Main content -->
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <slot />
+            <slot></slot>
           </div>
           <!-- /.row -->
         </div>
@@ -28,18 +28,11 @@
 </template>
 
 <script>
-import NavBar from "../components/NavBar.vue";
-import MainSideBar from "../components/MainSideBar.vue";
-import ControlSideBar from "../components/ControlSideBar.vue";
-import CustomFooter from "../components/CustomFooter.vue";
-import ContentHeader from "../components/ContentHeader.vue";
 export default {
-  components: {
-    NavBar,
-    MainSideBar,
-    ControlSideBar,
-    CustomFooter,
-    ContentHeader,
+  props: {
+    headerPage: {
+      type: Object,
+    },
   },
 };
 </script>
