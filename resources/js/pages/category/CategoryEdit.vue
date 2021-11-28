@@ -20,6 +20,9 @@
           :childParentId="category.parent_id"
           @select-parent="selectParent"
         />
+
+        <test-select :parentData="categories" />
+
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
@@ -31,6 +34,7 @@ import ParentSelect from "../../components/select/ParentSelect.vue";
 
 import axios from "axios";
 import { Errors } from "form-backend-validation";
+import TestSelect from "../../components/select/TestSelect.vue";
 export default {
   data() {
     return {
@@ -42,7 +46,7 @@ export default {
       },
     };
   },
-  components: { ParentSelect },
+  components: { ParentSelect, TestSelect },
   props: {
     categories: {
       type: Array,
@@ -70,6 +74,9 @@ export default {
     },
     selectParent(parentId) {
       this.category.parent_id = parentId;
+    },
+    testSelectParent(parentId) {
+      console.log(parentId);
     },
   },
 };

@@ -1,6 +1,7 @@
 <template>
   <div class="form-group">
     <label for="">{{ labelSelect }}</label>
+
     <select
       ref="parent-select"
       class="form-select form-control"
@@ -12,6 +13,8 @@
 </template>
 
 <script>
+import Multiselect from "vue-multiselect";
+
 function createParentOption(value, text) {
   const optEle = document.createElement("option");
   optEle.setAttribute("value", value);
@@ -78,6 +81,9 @@ export default {
     selectParent() {
       this.$emit("select-parent", this.selected);
     },
+  },
+  components: {
+    Multiselect,
   },
 };
 </script>

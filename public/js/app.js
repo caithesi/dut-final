@@ -2168,6 +2168,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2181,6 +2183,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
+
 function createParentOption(value, text) {
   var optEle = document.createElement("option");
   optEle.setAttribute("value", value);
@@ -2246,6 +2251,9 @@ function createRecursiveParent(parentSelectElement) {
     selectParent: function selectParent() {
       this.$emit("select-parent", this.selected);
     }
+  },
+  components: {
+    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default())
   }
 });
 
@@ -2594,6 +2602,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var form_backend_validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! form-backend-validation */ "./node_modules/form-backend-validation/dist/index.js");
+/* harmony import */ var _components_select_TestSelect_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/select/TestSelect.vue */ "./resources/js/components/select/TestSelect.vue");
 //
 //
 //
@@ -2622,6 +2631,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -2637,7 +2650,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   components: {
-    ParentSelect: _components_select_ParentSelect_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ParentSelect: _components_select_ParentSelect_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    TestSelect: _components_select_TestSelect_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   props: {
     categories: {
@@ -2665,6 +2679,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectParent: function selectParent(parentId) {
       this.category.parent_id = parentId;
+    },
+    testSelectParent: function testSelectParent(parentId) {
+      console.log(parentId);
     }
   }
 });
@@ -23593,6 +23610,8 @@ var render = function () {
             },
             on: { "select-parent": _vm.selectParent },
           }),
+          _vm._v(" "),
+          _c("test-select", { attrs: { parentData: _vm.categories } }),
           _vm._v(" "),
           _c(
             "button",
