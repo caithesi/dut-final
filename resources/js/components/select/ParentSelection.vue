@@ -5,9 +5,9 @@
       v-model="selected"
       :options="options"
       label="display_name"
-      track-by="id"
-      @input="testSelectParent"
-      @select="onSelect"
+      :track-by="trackBy"
+      @input="selectParent"
+      :placeholder="labelSelect"
     >
     </multiselect>
   </div>
@@ -56,18 +56,23 @@ export default {
         return 0;
       },
     },
+    trackBy: {
+      type: String,
+      default() {
+        return "id";
+      },
+    },
   },
   computed: {},
   components: {
     Multiselect,
   },
   methods: {
-    testSelectParent() {
-      console.log(this.selected);
-      this.$emit("test-select-parent", this.selected);
-    },
-    onSelect() {
-      console.log(this.selected);
+    selectParent() {
+      this.$emit(
+        "select-parent",
+        this.selected === null ? 0 : this.selected.id
+      );
     },
   },
   mounted() {

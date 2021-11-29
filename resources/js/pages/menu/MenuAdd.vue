@@ -1,25 +1,26 @@
 <template>
-  <layout-app>
+  <layout-app :headerPage="headerContent">
     <div class="col-md-6">
       <form @submit.prevent="submit">
         <div class="form-group">
-          <label for="categoryName">Category name</label>
+          <label for="menuName">Menu name</label>
           <input
             type="text"
             class="form-control"
-            id="categoryName"
-            placeholder="Enter category name"
+            id="menuName"
+            placeholder="Enter menu name"
             v-model="form.name"
           />
           <div class="text-danger" v-if="errors.has('name')">
             {{ errors.first("name") }}
           </div>
         </div>
-        <parent-select
-          :parentData="categories"
-          :childParentId="category.parent_id"
+        <parent-selection
+          :parentData="menus"
+          labelSelect="Select menu parent"
           @select-parent="selectParent"
-        />
+        ></parent-selection>
+
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
@@ -27,50 +28,44 @@
 </template>
 
 <script>
-import ParentSelect from "../../components/select/ParentSelect.vue";
-
 import axios from "axios";
 import { Errors } from "form-backend-validation";
-import TestSelect from "../../components/select/TestSelect.vue";
+
+import ParentSelect from "../../components/select/ParentSelect.vue";
+import ParentSelection from "../../components/select/ParentSelection.vue";
 export default {
+  components: { ParentSelect, ParentSelection },
   data() {
     return {
-      errors: new Errors(),
-      form: {
-        name: this.category.name,
-        id: this.category.id,
-        parent_id: this.category.id,
+      headerContent: {
+        name: "Menu",
+        key: "Add",
       },
+      form: {
+        name: null,
+        parent_id: 0,
+      },
+      errors: new Errors(),
     };
   },
-  components: { ParentSelect, TestSelect },
   props: {
-    categories: {
+    menus: {
       type: Array,
-    },
-    category: {
-      type: Object,
-    },
-  },
-  computed: {
-    parentId() {
-      return this.category.parent_id;
     },
   },
   methods: {
     submit() {
       axios
-        .put(`/category/${this.category.id}`, this.form)
+        .post("/menu", this.form)
         .then((response) => {
-          Turbolinks.visit("/category");
+          Turbolinks.visit("/menu");
         })
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);
-          this.form.name = this.category.name;
         });
     },
     selectParent(parentId) {
-      this.category.parent_id = parentId;
+      this.form.parent_id = parentId;
     },
   },
 };
