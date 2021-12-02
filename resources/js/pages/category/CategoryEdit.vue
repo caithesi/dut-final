@@ -67,6 +67,7 @@ export default {
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);
           this.form.name = this.category.name;
+          console.log(this.error)
         });
     },
     selectParent(parentId) {

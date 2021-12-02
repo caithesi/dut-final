@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\Test;
@@ -18,7 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', [Test::class, 'show']);
 
-Route::get('/', [Test::class, 'index']);
+Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
+Route::post('/login', [AdminController::class, 'postLoginAdmin']);
+
+Route::get('/', [AdminController::class, 'dashboard'])->middleware('auth');
+
 
 Route::resource('category', CategoryController::class);
 
