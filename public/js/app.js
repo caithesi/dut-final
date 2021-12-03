@@ -3697,17 +3697,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _importComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./importComponent */ "./resources/js/importComponent.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
+
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('layout-app', (__webpack_require__(/*! ./layouts/Application.vue */ "./resources/js/layouts/Application.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('layout-app', (__webpack_require__(/*! ./layouts/Application.vue */ "./resources/js/layouts/Application.vue")["default"]));
 
 var files = __webpack_require__("./resources/js sync recursive \\.vue$/");
 
 files.keys().map(function (key) {
-  vue__WEBPACK_IMPORTED_MODULE_0__["default"].component(key.split('/').pop().split('.')[0], files(key)["default"]);
+  console.log((0,_importComponent__WEBPACK_IMPORTED_MODULE_0__.generateComponentName)(key));
+  vue__WEBPACK_IMPORTED_MODULE_1__["default"].component(key.split('/').pop().split('.')[0], files(key)["default"]);
 }); // Start Turbolinks
 
 (__webpack_require__(/*! turbolinks */ "./node_modules/turbolinks/dist/turbolinks.js").start)(); // Boot the current Vue component
@@ -3720,9 +3723,9 @@ document.addEventListener('turbolinks:load', function (event) {
     app.$destroy(true);
   }
 
-  var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  var app = new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
     render: function render(h) {
-      return h(vue__WEBPACK_IMPORTED_MODULE_0__["default"].component(root.dataset.component), {
+      return h(vue__WEBPACK_IMPORTED_MODULE_1__["default"].component(root.dataset.component), {
         props: JSON.parse(root.dataset.props)
       });
     }
@@ -3759,6 +3762,34 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/importComponent.js":
+/*!*****************************************!*\
+  !*** ./resources/js/importComponent.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "generateComponentName": () => (/* binding */ generateComponentName)
+/* harmony export */ });
+function generateComponentName(key) {
+  // and remove .vue
+  var file = "".concat(key).split(".vue").join(""); // remove .
+
+  file = file.split(".").join(""); //replace "/" by "."
+
+  file = file.split("/").filter(function (word) {
+    return word.length > 0;
+  });
+  file.forEach(function (ele, index, file) {
+    file[index] = ele.match(/([A-Z]?[^A-Z]*)/g).slice(0, -1).join("-").toLowerCase();
+  });
+  return file.join(".");
+}
 
 /***/ }),
 
