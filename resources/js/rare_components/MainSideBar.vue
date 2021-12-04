@@ -55,7 +55,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="/category" class="nav-link">
+            <a :href="categoryIndex" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Simple Link
@@ -64,7 +64,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/menu" class="nav-link">
+            <a :href="menuIndex" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Menu
@@ -81,7 +81,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      categoryIndex: laroute.route("category.index"),
+      menuIndex: laroute.route("menu.index")
+    };
+  },
+};
 </script>
 
 <style>

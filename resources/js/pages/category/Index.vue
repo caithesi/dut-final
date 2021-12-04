@@ -1,6 +1,6 @@
 <template>
   <layout-app>
-    <success-link-btn link="/category/create" alias="Add" />
+    <success-link-btn :link="categoryCreate" alias="Add" />
     <div class="col-md-12">
       <custom-table
         :headData="tableHeaderData"
@@ -19,15 +19,20 @@
 </template>
 <script>
 import Pagination from "../../components/pagination/Pagination.vue";
+import SuccessLinkBtn from "../../components/button/SuccessLinkBtn.vue";
+import CustomTable from "../../components/tables/CustomTable.vue";
+
 import axios from "axios";
 import { Errors } from "form-backend-validation";
 
 export default {
-  components: { Pagination },
+  components: { Pagination, SuccessLinkBtn, CustomTable },
   data() {
     return {
       tableHeaderData: ["#", "Name", "Action"],
       tableLoopData: ["id", "name"],
+      categoryCreate: laroute.route("category.create"),
+      categoryIndex: laroute.route("category.index"),
     };
   },
   props: {
@@ -45,13 +50,16 @@ export default {
       Turbolinks.visit(url);
     },
     editItem(id) {
-      Turbolinks.visit("/category/" + id + "/edit");
+      let edit = laroute.route("category.edit", { category: id });
+      Turbolinks.visit(edit);
     },
     deleteItem(id) {
+      let del = laroute.route("category.destroy", { category: id });
+      console.log(del);
       axios
-        .delete(`/category/${id}`)
+        .delete(del)
         .then((response) => {
-          Turbolinks.visit("/category");
+          Turbolinks.visit(this.categoryIndex);
         })
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);
