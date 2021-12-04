@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
@@ -8,6 +8,7 @@ use App\Models\Menu;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
+use App\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
@@ -23,7 +24,7 @@ class MenuController extends Controller
     public function index()
     {
         $menus = Menu::select('id', 'name')->latest()->paginate(5);
-        return View::component('MenuIndex', compact('menus'));
+        return View::component('pages.menu.index', compact('menus'));
     }
 
     /**
@@ -34,7 +35,7 @@ class MenuController extends Controller
     public function create()
     {
         $menus = Menu::select('id', 'name', 'parent_id')->get();
-        return View::component('MenuAdd', compact('menus'));
+        return View::component('pages.menu.add', compact('menus'));
     }
 
     /**
@@ -72,7 +73,7 @@ class MenuController extends Controller
     {
         $menus = Menu::select('id', 'name', 'parent_id')->get();
         $menu = $menu->only('id', 'name', 'parent_id');
-        return View::component('MenuEdit', compact('menu', 'menus'));
+        return View::component('pages.menu.edit', compact('menu', 'menus'));
     }
 
     /**

@@ -28,11 +28,21 @@
 </template>
 
 <script>
+import ContentHeader from "../rare_components/ContentHeader.vue";
+import ControlSideBar from "../rare_components/ControlSideBar.vue";
+import CustomFooter from "../rare_components/CustomFooter.vue";
+import MainSideBar from "../rare_components/MainSideBar.vue";
+import NavBar from "../rare_components/NavBar.vue";
 export default {
+  components: {
+    ContentHeader,
+    ControlSideBar,
+    CustomFooter,
+    MainSideBar,
+    NavBar,
+  },
   props: {
-    headerPage: {
-      type: Object,
-    },
+    headerPage: {},
   },
 };
 </script>

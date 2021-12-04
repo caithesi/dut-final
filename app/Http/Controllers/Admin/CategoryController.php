@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
@@ -18,7 +19,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::select('id', 'name')->latest()->paginate(5);
-        return View::component('CategoryIndex', compact('categories'));
+        return View::component('pages.category.index', compact('categories'));
     }
 
     /**
@@ -29,7 +30,7 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::select('id', 'name', 'parent_id')->get();
-        return View::component('CategoryAdd', compact('categories'));
+        return View::component('pages.category.add', compact('categories'));
     }
 
     /**
@@ -68,7 +69,7 @@ class CategoryController extends Controller
     {
         $categories = Category::select('id', 'name', 'parent_id')->get();
         $category = $category->only('id', 'name', 'parent_id');
-        return View::component('CategoryEdit', compact('category', 'categories'));
+        return View::component('pages.category.edit', compact('category', 'categories'));
     }
 
     /**

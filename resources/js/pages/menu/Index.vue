@@ -21,9 +21,11 @@
 import Pagination from "../../components/pagination/Pagination.vue";
 import axios from "axios";
 import { Errors } from "form-backend-validation";
+import SuccessLinkBtn from '../../components/button/SuccessLinkBtn.vue';
+import CustomTable from '../../components/tables/CustomTable.vue';
 
 export default {
-  components: { Pagination },
+  components: { Pagination, SuccessLinkBtn, CustomTable },
   data() {
     return {
       tableHeaderData: ["#", "Name", "Action"],

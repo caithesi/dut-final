@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
     public function loginAdmin()
     {
-        return View::component('AdminLogin');
+        return View::component('pages.admin.login');
     }
 
     public function postLoginAdmin(Request $request)
@@ -24,7 +24,7 @@ class AdminController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return response()->json([
-                'intended' =>"/"
+                'intended' => "/"
             ]);
         }
 
@@ -37,6 +37,6 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return View::component('Dashboard');
+        return View::component('pages.dashboard');
     }
 }

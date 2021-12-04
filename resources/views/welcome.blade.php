@@ -24,6 +24,7 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="{{ mix('/js/app.js') }}" defer></script>
+    <script src="{{ asset('js/laroute.js') }}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">

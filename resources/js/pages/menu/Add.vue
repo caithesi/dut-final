@@ -3,19 +3,24 @@
     <div class="col-md-6">
       <form @submit.prevent="submit">
         <div class="form-group">
-          <label for="categoryName">Category name</label>
+          <label for="menuName">Menu name</label>
           <input
             type="text"
             class="form-control"
-            id="categoryName"
-            placeholder="Enter category name"
+            id="menuName"
+            placeholder="Enter menu name"
             v-model="form.name"
           />
           <div class="text-danger" v-if="errors.has('name')">
             {{ errors.first("name") }}
           </div>
         </div>
-        <parent-select :parentData="categories" @select-parent="selectParent" />
+        <parent-selection
+          :parentData="menus"
+          labelSelect="Select menu parent"
+          @select-parent="selectParent"
+        ></parent-selection>
+
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
@@ -26,13 +31,13 @@
 import axios from "axios";
 import { Errors } from "form-backend-validation";
 
-import ParentSelect from "../../components/select/ParentSelect.vue";
+import ParentSelection from "../../components/select/ParentSelection.vue";
 export default {
-  components: { ParentSelect },
+  components: { ParentSelection },
   data() {
     return {
       headerContent: {
-        name: "Category",
+        name: "Menu",
         key: "Add",
       },
       form: {
@@ -43,16 +48,16 @@ export default {
     };
   },
   props: {
-    categories: {
+    menus: {
       type: Array,
     },
   },
   methods: {
     submit() {
       axios
-        .post("/category", this.form)
+        .post("/menu", this.form)
         .then((response) => {
-          Turbolinks.visit("/category");
+          Turbolinks.visit("/menu");
         })
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);

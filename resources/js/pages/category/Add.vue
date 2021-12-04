@@ -3,24 +3,19 @@
     <div class="col-md-6">
       <form @submit.prevent="submit">
         <div class="form-group">
-          <label for="menuName">Menu name</label>
+          <label for="categoryName">Category name</label>
           <input
             type="text"
             class="form-control"
-            id="menuName"
-            placeholder="Enter menu name"
+            id="categoryName"
+            placeholder="Enter category name"
             v-model="form.name"
           />
           <div class="text-danger" v-if="errors.has('name')">
             {{ errors.first("name") }}
           </div>
         </div>
-        <parent-selection
-          :parentData="menus"
-          labelSelect="Select menu parent"
-          @select-parent="selectParent"
-        ></parent-selection>
-
+        <parent-select :parentData="categories" @select-parent="selectParent" />
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
@@ -32,13 +27,12 @@ import axios from "axios";
 import { Errors } from "form-backend-validation";
 
 import ParentSelect from "../../components/select/ParentSelect.vue";
-import ParentSelection from "../../components/select/ParentSelection.vue";
 export default {
-  components: { ParentSelect, ParentSelection },
+  components: { ParentSelect },
   data() {
     return {
       headerContent: {
-        name: "Menu",
+        name: "Category",
         key: "Add",
       },
       form: {
@@ -46,19 +40,21 @@ export default {
         parent_id: 0,
       },
       errors: new Errors(),
+      categoryIndex: laroute.route("category.index"),
+      categoryStore: laroute.route("category.store"),
     };
   },
   props: {
-    menus: {
+    categories: {
       type: Array,
     },
   },
   methods: {
     submit() {
       axios
-        .post("/menu", this.form)
+        .post(this.categoryStore, this.form)
         .then((response) => {
-          Turbolinks.visit("/menu");
+          Turbolinks.visit(this.categoryIndex);
         })
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);
