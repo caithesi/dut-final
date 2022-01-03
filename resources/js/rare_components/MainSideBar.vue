@@ -72,6 +72,15 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a :href="productIndex" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Product
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -85,7 +94,8 @@ export default {
   data() {
     return {
       categoryIndex: laroute.route("category.index"),
-      menuIndex: laroute.route("menu.index")
+      menuIndex: laroute.route("menu.index"),
+      productIndex: laroute.route("product.index"),
     };
   },
 };

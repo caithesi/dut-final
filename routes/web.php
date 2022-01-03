@@ -2,7 +2,8 @@
 use App\Http\Controllers\Admin\{
     AdminController,
     CategoryController,
-    MenuController
+    MenuController,
+    ProductController
 };
 
 use App\Http\Controllers\Test;
@@ -24,12 +25,13 @@ Route::get('/test', [Test::class, 'show']);
 Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
 Route::post('/login', [AdminController::class, 'postLoginAdmin']);
 
-Route::get('/', [AdminController::class, 'dashboard'])->middleware('auth');
+Route::get('/', [AdminController::class, 'dashboard'])->middleware('auth')->name('dashboard');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resources([
         'menu' => MenuController::class,
-        'category' =>  CategoryController::class
+        'category' =>  CategoryController::class,
+        'product' => ProductController::class
     ]);
 });
 

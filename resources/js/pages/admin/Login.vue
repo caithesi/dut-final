@@ -104,9 +104,8 @@ export default {
           Turbolinks.visit(response['data']["intended"]);
         })
         .catch((error) => {
-          console.log(error.response.data);
-          this.errors = new Errors(error.response.data);
-          console.log(this.errors);
+          this.errors = new Errors(error.response.data.errors);
+          console.log(error.response.data.errors);
         });
     },
   },

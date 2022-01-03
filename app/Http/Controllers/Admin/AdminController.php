@@ -11,6 +11,9 @@ class AdminController extends Controller
 {
     public function loginAdmin()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return View::component('pages.admin.login');
     }
 
@@ -30,8 +33,9 @@ class AdminController extends Controller
 
 
         return response()->json([
-            'email' => 'The provided credentials do not match our records.',
-
+            'errors' => [
+                'email' => 'The provided credentials do not match our records.',
+            ],
         ], 422);
     }
 
