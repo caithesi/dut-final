@@ -1,14 +1,13 @@
 <template>
   <div class="form-group">
     <label :for="id">{{ computedLabel }}</label>
-    <input
-      type="text"
-      :class="[isInvalidClass]"
+    <textarea
       :id="id"
-      :placeholder="placeHoder"
+      :class="[isInvalidClass]"
       v-model="contentData"
       @change="changeInput"
-    />
+      rows="4"
+    ></textarea>
     <div class="text-danger" v-if="errorName">
       {{ errorData }}
     </div>
