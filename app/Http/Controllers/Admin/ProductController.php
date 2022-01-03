@@ -9,10 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\StorageImageTraits;
 use Illuminate\Support\Facades\View;
 use App\Models\Category;
-use App\Models\ProductImage;
 use App\Services\ProductService;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {

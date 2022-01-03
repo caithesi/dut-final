@@ -63,7 +63,6 @@ export default {
     },
     deleteItem(id) {
       let del = laroute.route("product.destroy", { product: id });
-      console.log(del);
       axios
         .delete(del)
         .then((response) => {
@@ -74,8 +73,7 @@ export default {
         });
     },
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 

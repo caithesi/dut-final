@@ -54,30 +54,12 @@
         >
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a :href="categoryIndex" class="nav-link">
+          <li class="nav-item" v-for="(value, key) in adminRoutes" :key="key">
+            <a :href="value.index" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a :href="menuIndex" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Menu
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a :href="productIndex" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Product
-                <span class="right badge badge-danger">New</span>
+                {{ value.text }}
+                <span class="right badge badge-danger">{{ value.symbol }}</span>
               </p>
             </a>
           </li>
@@ -93,9 +75,28 @@
 export default {
   data() {
     return {
-      categoryIndex: laroute.route("category.index"),
-      menuIndex: laroute.route("menu.index"),
-      productIndex: laroute.route("product.index"),
+      adminRoutes: {
+        category: {
+          index: laroute.route("category.index"),
+          text: "Category",
+          symbol: "New",
+        },
+        menu: {
+          index: laroute.route("menu.index"),
+          text: "Menu",
+          symbol: "New",
+        },
+        product: {
+          index: laroute.route("product.index"),
+          text: "Product",
+          symbol: "New",
+        },
+        slider: {
+          index: laroute.route("slider.index"),
+          text: "Slider",
+          symbol: "New",
+        },
+      },
     };
   },
 };
