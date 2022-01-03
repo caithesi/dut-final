@@ -10,11 +10,14 @@
     <tbody>
       <tr v-for="(value, key) in tableData" :key="key">
         <th scope="row">{{ value.id }}</th>
+
         <td
           v-for="(value_loop, key_loop) in getLoopDataExceptPrimaryValue"
           :key="key_loop"
         >
-          {{ value[value_loop] }}
+          <slot :value="value" :value_loop="value_loop">
+            {{ value[value_loop] }}
+          </slot>
         </td>
         <td>
           <a
@@ -34,7 +37,9 @@
 </template>
 
 <script>
+import TdTable from "./TdTable.vue";
 export default {
+  components: { TdTable },
   props: {
     primaryValue: {
       type: String,

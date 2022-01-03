@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Product;
+use App\Observers\ProductObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\Factory as ViewFactory;
@@ -28,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         ViewFactory::macro('component', function ($name, $data = []) {
             return View::make('welcome', ['name' => $name, 'data' => $data]);
         });
+        Product::observe(ProductObserver::class);
     }
 }

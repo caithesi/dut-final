@@ -1,6 +1,6 @@
 <template>
   <layout-app :headerPage="headerContent">
-    <success-link-btn link="/menu/create" alias="Add" />
+    <success-link-btn :link="lararoutes('create')" alias="Add" />
     <div class="col-md-12">
       <custom-table
         :headData="tableHeaderData"
@@ -21,8 +21,8 @@
 import Pagination from "../../components/pagination/Pagination.vue";
 import axios from "axios";
 import { Errors } from "form-backend-validation";
-import SuccessLinkBtn from '../../components/button/SuccessLinkBtn.vue';
-import CustomTable from '../../components/tables/CustomTable.vue';
+import SuccessLinkBtn from "../../components/button/SuccessLinkBtn.vue";
+import CustomTable from "../../components/tables/CustomTable.vue";
 
 export default {
   components: { Pagination, SuccessLinkBtn, CustomTable },
@@ -34,6 +34,7 @@ export default {
         name: "Menu",
         key: "Index",
       },
+      routeName: "menu",
     };
   },
   props: {
@@ -51,17 +52,20 @@ export default {
       Turbolinks.visit(url);
     },
     editItem(id) {
-      Turbolinks.visit("/menu/" + id + "/edit");
+      Turbolinks.visit(this.lararoutes("edit", { [this.routeName]: id }));
     },
     deleteItem(id) {
       axios
-        .delete(`/menu/${id}`)
+        .delete(this.lararoutes("destroy", { [this.routeName]: id }))
         .then((response) => {
-          Turbolinks.visit("/menu");
+          Turbolinks.visit(this.lararoutes("index"));
         })
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);
         });
+    },
+    lararoutes(name, parameter = {}) {
+      return laroute.route(`${this.routeName}.${name}`, parameter);
     },
   },
 };
