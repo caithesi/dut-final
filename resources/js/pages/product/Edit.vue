@@ -132,15 +132,15 @@ export default {
 
       //     formData.append("product_img[" + i + "]", file);
       //   }
-      formData.append("_method", "put");
+      formData.append("_method", "PUT");
       let editLink = laroute.route("product.update", {
         product: this.product.id,
       });
-      editLink = editLink + "?_method=PATCH";
+      //   editLink = editLink + "?_method=PUT";
       console.log(editLink);
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       axios
-        .post(editLink, this.form, config)
+        .post(editLink, this.form)
         .then((response) => {
           Turbolinks.visit(response.data.file_path);
         })

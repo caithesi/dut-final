@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\{
     CategoryController,
     MenuController,
     ProductController,
+    SettingController,
     SliderController,
 };
 use App\Http\Controllers\Test;
@@ -34,6 +35,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'category' =>  CategoryController::class,
         'product' => ProductController::class,
         'slider' => SliderController::class,
+        'setting' => SettingController::class,
     ]);
 });
 

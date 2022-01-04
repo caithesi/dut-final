@@ -96,6 +96,10 @@ export default {
           text: "Slider",
           symbol: "New",
         },
+        setting: {
+          index: laroute.route("setting.index"),
+          text: "Setting",
+        },
       },
     };
   },
