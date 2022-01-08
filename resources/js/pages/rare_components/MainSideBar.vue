@@ -100,6 +100,10 @@ export default {
           index: laroute.route("setting.index"),
           text: "Setting",
         },
+        emplyee: {
+          index: laroute.route("user.index"),
+          text: "User",
+        },
       },
     };
   },

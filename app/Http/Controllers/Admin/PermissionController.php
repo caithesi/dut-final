@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StorePermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Permission;
-
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 class PermissionController extends Controller
 {
     /**

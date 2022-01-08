@@ -8,6 +8,7 @@
       :track-by="trackBy"
       @input="selectParent"
       :placeholder="labelSelect"
+      :multiple="multiSelect"
     >
     </multiselect>
   </div>
@@ -60,6 +61,12 @@ export default {
       type: String,
       default() {
         return "id";
+      },
+    },
+    multiSelect: {
+      type: Boolean,
+      default() {
+        return false;
       },
     },
   },
