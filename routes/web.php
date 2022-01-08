@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\{
     AdminController,
+    AdminUserController,
     CategoryController,
     MenuController,
     ProductController,
@@ -36,6 +37,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'product' => ProductController::class,
         'slider' => SliderController::class,
         'setting' => SettingController::class,
+        'user' => AdminUserController::class,
     ]);
 });
 
