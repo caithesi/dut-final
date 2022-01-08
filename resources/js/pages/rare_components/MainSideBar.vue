@@ -104,6 +104,10 @@ export default {
           index: laroute.route("user.index"),
           text: "User",
         },
+        roles: {
+          index: laroute.route("role.index"),
+          text: "Roles",
+        },
       },
     };
   },

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{
     CategoryController,
     MenuController,
     ProductController,
+    RoleController,
     SettingController,
     SliderController,
 };
@@ -38,6 +39,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'slider' => SliderController::class,
         'setting' => SettingController::class,
         'user' => AdminUserController::class,
+        'role' => RoleController::class,
     ]);
 });
 

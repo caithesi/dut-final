@@ -6,10 +6,26 @@ use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
+use App\Services\RoleService;
 use Illuminate\Support\Facades\View;
 
 class RoleController extends Controller
 {
+    private $viewDir;
+    private $viewFiles;
+    private $roleService;
+
+    public function __construct(RoleService $roleService)
+    {
+        $this->viewDir = 'pages.roles';
+        $this->viewFiles = [
+            'index' => $this->viewDir . '.index',
+            'add' => $this->viewDir . '.add',
+            'edit' => $this->viewDir . '.edit',
+        ];
+        $this->roleService = $roleService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +33,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::paginate(10);
+        return View::component($this->viewFiles['index'], compact('roles'));
     }
 
     /**
@@ -27,7 +44,13 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $permissions = Permission::where('parent_id', 0)
+            ->select('id', 'name', 'display_name')
+            ->with(['permissionsChildren' => function ($query) {
+            }])
+            ->get();
+        // dd($permissions);
+        return View::component($this->viewFiles['add'], compact('permissions'));
     }
 
     /**
@@ -38,7 +61,7 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        //
+        $this->roleService->store($request);
     }
 
     /**
@@ -60,7 +83,13 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        $role_permisstions = $role->permissions;
+        $permissions = Permission::where('parent_id', 0)
+            ->select('id', 'name', 'display_name')
+            ->with(['permissionsChildren' => function ($query) {
+            }])
+            ->get();
+        return View::component($this->viewFiles['edit'], compact('role', 'permissions'));
     }
 
     /**
@@ -72,7 +101,7 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        $this->roleService->update($request, $role);
     }
 
     /**
@@ -83,6 +112,6 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $role->delete();
     }
 }
