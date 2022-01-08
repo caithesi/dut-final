@@ -81,8 +81,6 @@ export default {
   },
   methods: {
     submit() {
-
-
       let editLink = laroute.route("user.update", {
         user: this.user.id,
       });
@@ -90,7 +88,7 @@ export default {
       axios
         .put(editLink, this.form)
         .then((response) => {
-            Turbolinks.visit(this.indexRoute);
+          Turbolinks.visit(this.indexRoute);
         })
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);
