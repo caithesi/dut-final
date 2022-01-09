@@ -31,4 +31,16 @@ class RoleService
         };
         $this->transactionExecWihReq($store);
     }
+
+    public function update2(Request $request, Role $role)
+    {
+        $store = function () use ($request, $role) {
+            $role->update([
+                'name' => $request->role_name,
+                'display_name' => $request->display_name,
+            ]);
+            $role->permissions()->sync($request->permissions);
+        };
+        return $store;
+    }
 }

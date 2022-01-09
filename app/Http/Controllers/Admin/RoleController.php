@@ -8,10 +8,12 @@ use App\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Services\RoleService;
+use App\Traits\TransactionFunction;
 use Illuminate\Support\Facades\View;
 
 class RoleController extends Controller
 {
+    use TransactionFunction;
     private $viewDir;
     private $viewFiles;
     private $roleService;
@@ -101,7 +103,8 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $this->roleService->update($request, $role);
+        // $this->roleService->update($request, $role);
+        $this->transactionExecWihReq($this->roleService->update2($request, $role));
     }
 
     /**
