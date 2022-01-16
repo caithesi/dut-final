@@ -2,6 +2,7 @@
   <layout-app>
     <success-link-btn :link="sliderCreate" alias="Add" />
     <custom-table
+      class="custom-table"
       :headData="tableHeaderData"
       :loopData="tableLoopData"
       :tableData="slidersData"
@@ -73,5 +74,6 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
 </style>

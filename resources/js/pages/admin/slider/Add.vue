@@ -72,7 +72,7 @@ export default {
         .post(this.sliderStore, formData, config)
         .then((response) => {
           console.log(response);
-        //   Turbolinks.visit(response.data.file_path);
+          //   Turbolinks.visit(response.data.file_path);
         })
         .catch((error) => {
           this.errors = new Errors(error.response.data.errors);
@@ -89,6 +89,7 @@ export default {
     document
       .getElementById("sliderDescription")
       .setAttribute("maxlength", "150");
+    document.title = "Side Bar";
   },
 };
 </script>

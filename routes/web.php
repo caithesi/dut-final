@@ -10,6 +10,10 @@ use App\Http\Controllers\Admin\{
     SettingController,
     SliderController,
 };
+use App\Http\Controllers\Shopper\{
+    HomeController,
+    ShopperCategoryController,
+};
 use App\Http\Controllers\Test;
 use Illuminate\Support\Facades\Route;
 
@@ -24,14 +28,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [HomeController::class, 'index'])->name('shopper-home');
+Route::get('home-category', [HomeController::class, 'categories']);
+Route::get('/page-config/{config_key}', [HomeController::class, 'getConfig']);
+Route::get('/category/{slug}/{id}', [ShopperCategoryController::class, 'index'])->name('shopper.category');
 Route::get('/test', [Test::class, 'show']);
 
 Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
 Route::post('/login', [AdminController::class, 'postLoginAdmin']);
 
-Route::get('/', [AdminController::class, 'dashboard'])->middleware('auth')->name('dashboard');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware('auth')->name('dashboard');
+
     Route::resources([
         'menu' => MenuController::class,
         'category' =>  CategoryController::class,

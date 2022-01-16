@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:category-list')->only('index');
+        // $this->middleware('can:category-list')->only('index');
     }
     /**
      * Display a listing of the resource.
