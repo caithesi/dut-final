@@ -15,7 +15,7 @@ class MenuController extends Controller
     public function __construct()
     {
         $this->middleware("auth");
-        $this->middleware('can:menu-list')->only('index');
+        // $this->middleware('can:menu-list')->only('index');
 
     }
     /**

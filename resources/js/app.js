@@ -5,7 +5,7 @@ import { generateComponentName } from './importComponent'
 window.Vue = require('vue');
 
 Vue.component('layout-app', require('./layouts/Application.vue').default)
-
+Vue.component('shopper-app', require('./layouts/Shopper.vue').default);
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => {
     Vue.component(generateComponentName(key), files(key).default)

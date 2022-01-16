@@ -9,9 +9,10 @@ class Test extends Controller
 {
     public function show()
     {
-        return View::component('Hello', [
-            'event' => ['greeting' => 'greeting'],
-        ]);
+        return [auth()->user()];
+        // return View::component('Hello', [
+        //     'event' => ['greeting' => 'greeting'],
+        // ]);
     }
 
     public function index()

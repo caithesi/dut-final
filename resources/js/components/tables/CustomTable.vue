@@ -7,7 +7,7 @@
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="custom-table-body">
       <tr v-for="(value, key) in tableData" :key="key">
         <th scope="row">{{ value.id }}</th>
 
@@ -74,5 +74,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>
