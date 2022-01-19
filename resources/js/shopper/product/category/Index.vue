@@ -21,20 +21,22 @@
                   <div class="product-image-wrapper">
                     <div class="single-products">
                       <div class="productinfo text-center feature-product">
-                        <div class="feature-image-container">
-                          <img
-                            :src="item.feature_img_path"
-                            alt=""
-                            class="feature-image"
-                          />
-                        </div>
+                        <a :href="productDetails(item.id)"
+                          ><div class="feature-image-container">
+                            <img
+                              :src="item.feature_img_path"
+                              alt=""
+                              class="feature-image"
+                            /></div
+                        ></a>
+
                         <h2>{{ item.price }}</h2>
                         <p>{{ item.name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"
                           ><i class="fa fa-shopping-cart"></i>Add to cart</a
                         >
                       </div>
-                      <div class="product-overlay">
+                      <!-- <div class="product-overlay">
                         <div class="overlay-content">
                           <h2>{{ item.price }}</h2>
                           <p>{{ item.name }}</p>
@@ -42,7 +44,7 @@
                             ><i class="fa fa-shopping-cart"></i>Add to cart</a
                           >
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                     <div class="choose">
                       <ul class="nav nav-pills nav-justified">
@@ -95,11 +97,18 @@ export default {
     },
   },
   mounted() {
-    console.log(this.products);
+    console.log(laroute.route("shop.product.show"));
   },
   methods: {
     changePage(url) {
       Turbolinks.visit(url);
+    },
+  },
+  computed: {
+    productDetails() {
+      return function (id) {
+        return laroute.route("shop.product.show", { product: id });
+      };
     },
   },
 };

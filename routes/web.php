@@ -13,8 +13,10 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\Shopper\{
     HomeController,
     ShopperCategoryController,
+    ShopperProductController,
 };
 use App\Http\Controllers\Test;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +34,9 @@ Route::get('/', [HomeController::class, 'index'])->name('shopper-home');
 Route::get('home-category', [HomeController::class, 'categories']);
 Route::get('/page-config/{config_key}', [HomeController::class, 'getConfig']);
 Route::get('/category/{slug}/{id}', [ShopperCategoryController::class, 'index'])->name('shopper.category');
+Route::prefix('shop')->name('shop.')->group(function () {
+    Route::resource('product', ShopperProductController::class);
+});
 Route::get('/test', [Test::class, 'show']);
 
 Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');

@@ -59,8 +59,8 @@ export default {
     },
   },
   mounted() {
-    console.log(this.categories);
-    console.log(laroute.route("shopper.category"));
+    // console.log(this.categories);
+    // console.log(laroute.route("shopper.category"));
   },
   computed: {
     genHrefPanel(id) {
