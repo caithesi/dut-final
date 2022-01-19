@@ -181,7 +181,6 @@ export default {
   created() {
     axios.get("/page-config/footer_infomation").then((resp) => {
       this.footer_info = resp.data;
-      console.log(this.footer_info);
     });
   },
 };
