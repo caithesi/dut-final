@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use stdClass;
 
 class ShopperProductController extends Controller
 {
@@ -20,6 +21,7 @@ class ShopperProductController extends Controller
             'add' => $this->viewDir . '.add',
             'edit' => $this->viewDir . '.edit',
             'show' =>  $this->viewDir . '.detail',
+            'cart' =>  $this->viewDir . '.cart',
         ];
     }
     /**
@@ -101,5 +103,40 @@ class ShopperProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+    public function addToCart($id)
+    {
+        $quantity = request('quantity');
+        $cart = session()->get('cart');
+        $product = Product::find($id);
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity'] += $quantity;
+        } else {
+            $cart[$id] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => 1,
+                'image' => $product->feature_img_path,
+            ];
+        }
+        if ($cart[$id]['quantity'] == 0) {
+            unset($cart[$id]);
+        }
+        session()->put('cart', $cart);
+        if (isset($cart[$id])) {
+            return response()->json([$cart[$id]], 200);
+        }
+        return response()->json([], 200);
+    }
+    public function cartShow()
+    {
+        $cart = session()->get('cart');
+        if ($cart == null) {
+            $cart = new stdClass();
+        }
+        return View::shopper(
+            $this->viewFiles['cart'],
+            compact('cart')
+        );
     }
 }

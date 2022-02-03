@@ -25,18 +25,6 @@
                 <li>
                   <a :href="face_book"><i class="fa fa-facebook"></i></a>
                 </li>
-                <!-- <li>
-                  <a href="#"><i class="fa fa-twitter"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-linkedin"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-dribbble"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-google-plus"></i></a>
-                </li> -->
               </ul>
             </div>
           </div>
@@ -44,7 +32,6 @@
       </div>
     </div>
     <!--/header_top-->
-
     <div class="header-middle">
       <!--header-middle-->
       <div class="container">
@@ -102,12 +89,15 @@
                   >
                 </li>
                 <li>
-                  <a href="cart.html"
+                  <a :href="showCartRoute"
                     ><i class="fa fa-shopping-cart"></i> Cart</a
                   >
                 </li>
                 <li>
-                  <a href="login.html"><i class="fa fa-lock"></i> Login</a>
+                  <a v-if="checkEmptyUser()" href="login.html"
+                    ><i class="fa fa-lock"></i> Login</a
+                  >
+                  <a v-else href="#"> {{ user.email }} </a>
                 </li>
               </ul>
             </div>
@@ -116,7 +106,6 @@
       </div>
     </div>
     <!--/header-middle-->
-
     <div class="header-bottom">
       <!--header-bottom-->
       <div class="container">
@@ -145,7 +134,6 @@
                     <li><a href="product-details.html">Product Details</a></li>
                     <li><a href="checkout.html">Checkout</a></li>
                     <li><a href="cart.html">Cart</a></li>
-                    <li><a href="login.html">Login</a></li>
                   </ul>
                 </li>
                 <li class="dropdown">
@@ -175,6 +163,7 @@
 <script>
 import axios from "axios";
 export default {
+  props: {},
   data() {
     return {
       face_book: {
@@ -195,6 +184,19 @@ export default {
           return "";
         },
       },
+      isEmpty: {
+        type: Boolean,
+        default() {
+          return false;
+        },
+      },
+      user: {
+        type: Object,
+        default() {
+          return {};
+        },
+      },
+      showCartRoute: laroute.route("shop.products.cart-show"),
     };
   },
   created() {
@@ -207,6 +209,21 @@ export default {
     axios.get("/page-config/phone_contact").then((resp) => {
       this.phone_contact = resp.data;
     });
+    axios.get(laroute.route("logged.user")).then((resp) => {
+      this.user = resp.data;
+    });
+    this.isEmpty = objectIsEmpty(this.user);
+  },
+  computed: {},
+  mounted() {},
+  methods: {
+    checkEmptyUser() {
+      return (
+        Object.keys(this.user).filter(
+          (keys) => !["type", "default"].includes(keys)
+        ).length == 0
+      );
+    },
   },
 };
 </script>
