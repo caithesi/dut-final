@@ -10,11 +10,15 @@
               <img :src="items.feature_img_path" alt="" />
               <h2>${{ items.price }}</h2>
               <p>{{ items.name }}</p>
-              <a href="#" class="btn btn-default add-to-cart"
+              <a
+                href="#"
+                class="btn btn-default add-to-cart"
+                @click.prevent="addToCart($event)"
+                :data-url="items.id"
                 ><i class="fa fa-shopping-cart"></i>Add to cart</a
               >
             </div>
-            <div class="product-overlay">
+            <!-- <div class="product-overlay">
               <div class="overlay-content">
                 <h2>${{ items.price }}</h2>
                 <p>{{ items.name }}</p>
@@ -22,9 +26,9 @@
                   ><i class="fa fa-shopping-cart"></i>Add to cart</a
                 >
               </div>
-            </div>
+            </div> -->
           </div>
-          <div class="choose">
+          <!-- <div class="choose">
             <ul class="nav nav-pills nav-justified">
               <li>
                 <a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a>
@@ -33,7 +37,7 @@
                 <a href="#"><i class="fa fa-plus-square"></i>Add to compare</a>
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -48,6 +52,12 @@ export default {
       default() {
         return [];
       },
+    },
+  },
+  methods: {
+    addToCart($event) {
+    //   console.log($event.target.getAttribute("data-url"));
+      this.$emit('add-to-cart', $event.target.getAttribute("data-url"))
     },
   },
 };

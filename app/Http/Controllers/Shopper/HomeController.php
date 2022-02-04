@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use stdClass;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -39,14 +40,14 @@ class HomeController extends Controller
         $feature_products = Product::latest()->take(6)->get();
         $category_products = Category::where('parent_id', 0)->with('products')->get();
         $settings = Setting::get();
-        // $setting = Setting::where('config_key', $test)->first();
-        // if (!empty($setting)) {
-        //     dd(1);
-        // }
-        // dd($setting);
+        $user = auth()->user();
+        if ($user == null) {
+            $user = new stdClass();
+        }
+        // dd($user);
         return View::shopper(
             $this->viewFiles['index'],
-            compact('sliders', 'categories', 'feature_products', 'category_products')
+            compact('sliders', 'categories', 'feature_products', 'category_products', 'user')
         );
     }
 

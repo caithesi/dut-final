@@ -25,7 +25,10 @@
           <div class="col-sm-9 padding-right">
             <recommended-item />
             <!--/recommended_items-->
-            <feature-item :feature_products="feature_products" />
+            <feature-item
+              :feature_products="feature_products"
+              @add-to-cart="addToCart"
+            />
             <!--features_items-->
             <!-- <category-tab :categories="category_products"/> -->
 
@@ -44,6 +47,7 @@ import RecommendedItem from "../components/RecommendedItem.vue";
 import ShopperBrand from "./ShopperBrand.vue";
 import ShopperCategory from "../components/ShopperCategory.vue";
 import ShopperSlider from "../components/ShopperSlider.vue";
+import axios from "axios";
 export default {
   components: {
     ShopperSlider,
@@ -78,8 +82,30 @@ export default {
         return [];
       },
     },
+    user: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
   },
   mounted() {},
+  data() {
+    return {
+
+    };
+  },
+  methods: {
+    addToCart(id) {
+    //   console.log(laroute.route("shop.products.cart", { id: id }));
+      let _form = { quantity: 1 };
+      axios
+        .post(laroute.route("shop.products.cart", { id: id }), _form)
+        .then((resp) => {
+          console.log(resp);
+        });
+    },
+  },
 };
 </script>
 

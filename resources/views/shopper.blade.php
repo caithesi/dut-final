@@ -45,6 +45,7 @@
     <script src="{{ asset('eshopper/js/price-range.js') }}"></script>
     <script src="{{ asset('eshopper/js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ asset('eshopper/js/main.js') }}"></script>
+    <script src="{{ asset('scripts/emptyObj.js') }}"></script>
     <script>
     </script>
 </body>

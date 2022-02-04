@@ -16,6 +16,7 @@ use App\Http\Controllers\Shopper\{
     ShopperProductController,
 };
 use App\Http\Controllers\Test;
+use App\Http\Controllers\UserController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
@@ -35,8 +36,11 @@ Route::get('home-category', [HomeController::class, 'categories']);
 Route::get('/page-config/{config_key}', [HomeController::class, 'getConfig']);
 Route::get('/category/{slug}/{id}', [ShopperCategoryController::class, 'index'])->name('shopper.category');
 Route::prefix('shop')->name('shop.')->group(function () {
+    Route::post('/products/{id}/cart', [ShopperProductController::class, 'addToCart'])->name('products.cart');
+    Route::get('/products/cart', [ShopperProductController::class, 'cartShow'])->name('products.cart-show');
     Route::resource('product', ShopperProductController::class);
 });
+Route::get('logged/user', [UserController::class, 'getLoginedUser'])->name('logged.user');
 Route::get('/test', [Test::class, 'show']);
 
 Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
