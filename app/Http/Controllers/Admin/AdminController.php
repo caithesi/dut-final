@@ -12,7 +12,7 @@ class AdminController extends Controller
     public function loginAdmin()
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('shopper-home');
         }
         return View::component('pages.admin.login');
     }

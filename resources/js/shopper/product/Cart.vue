@@ -99,7 +99,12 @@
                 <li>Total <span id="total-with-eco-tax">$61</span></li>
               </ul>
               <a class="btn btn-default update" href="">Update</a>
-              <a class="btn btn-default check_out" href="">Check Out</a>
+              <a
+                class="btn btn-default check_out"
+                href=""
+                @click.prevent="checkOut()"
+                >Check Out</a
+              >
             </div>
           </div>
         </div>
@@ -143,7 +148,6 @@ export default {
       axios
         .post(laroute.route("shop.products.cart", { id: id }), _form)
         .then((resp) => {
-          console.log(resp);
           if (resp.data.length == 0) {
             cart_quantity.value = 0;
             cart_price.innerHTML = 0;
@@ -169,6 +173,19 @@ export default {
     deleteCart($event, id) {
       const cart_quantity = document.getElementById(`cart-quantity-${id}`);
       this.updateCartQuantity($event, -cart_quantity.value, id);
+    },
+    checkOut() {
+      axios
+        .post(laroute.route("shop.check-out"))
+        .then((resp) => {
+          Turbolinks.visit("/");
+        })
+        .catch((error) => {
+          console.log(error.response.status);
+          if (error.response.status === 401) {
+            Turbolinks.visit("/login");
+          }
+        });
     },
   },
 };

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\{
 };
 use App\Http\Controllers\Shopper\{
     HomeController,
+    OrderController,
     ShopperCategoryController,
     ShopperProductController,
 };
@@ -42,7 +43,7 @@ Route::prefix('shop')->name('shop.')->group(function () {
 });
 Route::get('logged/user', [UserController::class, 'getLoginedUser'])->name('logged.user');
 Route::get('/test', [Test::class, 'show']);
-
+Route::post('/checkout', [OrderController::class, 'checkOut'])->middleware('auth')->name('shop.check-out');
 Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
 Route::post('/login', [AdminController::class, 'postLoginAdmin']);
 
