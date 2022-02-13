@@ -32,7 +32,7 @@
         href="{{ asset('eshopper/images/ico/apple-touch-icon-57-precomposed.png') }}">
     <script src="{{ mix('/js/app.js') }}" defer></script>
     <script src="{{ asset('js/laroute.js') }}"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
 <!--/head-->
 
