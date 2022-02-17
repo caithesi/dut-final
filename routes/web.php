@@ -15,6 +15,7 @@ use App\Http\Controllers\Shopper\{
     OrderController,
     ShopperCategoryController,
     ShopperProductController,
+    ReccomnedController,
 };
 use App\Http\Controllers\Test;
 use App\Http\Controllers\UserController;
@@ -47,6 +48,8 @@ Route::get('/test', [Test::class, 'show']);
 Route::post('/checkout', [OrderController::class, 'checkOut'])->middleware('auth')->name('shop.check-out');
 Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
 Route::post('/login', [AdminController::class, 'postLoginAdmin']);
+Route::get('/rating', [ReccomnedController::class, 'recommend']);
+Route::get('/recomend', [ReccomnedController::class, 'recommend'])->name('product.recomend');
 
 
 Route::prefix('admin')->middleware('auth')->group(function () {
