@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     addToCart($event) {
-      //   console.log($event.target.getAttribute("data-url"));
       this.$emit("add-to-cart", $event.target.getAttribute("data-url"));
     },
     productDetails() {

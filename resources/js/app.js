@@ -1,11 +1,14 @@
 require('./bootstrap');
 import Vue from 'vue'
 import { generateComponentName } from './importComponent'
-
+import VueSweetalert2 from 'vue-sweetalert2';
 window.Vue = require('vue');
 
 Vue.component('layout-app', require('./layouts/Application.vue').default)
 Vue.component('shopper-app', require('./layouts/Shopper.vue').default);
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
+
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => {
     Vue.component(generateComponentName(key), files(key).default)
