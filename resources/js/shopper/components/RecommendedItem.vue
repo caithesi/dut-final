@@ -75,7 +75,7 @@ export default {
   },
   beforeCreate() {
     axios
-      .get(laroute.route("product.recomend"))
+      .get(laroute.route("shop.product.recommend"))
       .then((resp) => resp.data)
       .then((data) => {
         this.recommend = data;

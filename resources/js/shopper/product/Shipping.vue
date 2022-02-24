@@ -278,7 +278,6 @@ export default {
     },
     changeShippingFee(fee) {
       this.form.ship_service_fee = fee;
-      this.$emit("change-fee", this.form);
     },
   },
   mounted() {
@@ -290,6 +289,32 @@ export default {
         "ProvinceName"
       )
     );
+  },
+  watch: {
+    form: {
+      handler(value) {
+        for (const key in value) {
+          if (!Object.hasOwnProperty.call(value, key)) {
+            break;
+          }
+          if (key === "ship_msg") {
+            break;
+          }
+          const element = value[key];
+          if (key === "ship_service_fee") {
+            if (element == 0) {
+              this.$emit("change-fee", null);
+              return;
+            }
+          } else if (element == null || element.length == 0) {
+            this.$emit("change-fee", null);
+            return;
+          }
+        }
+        this.$emit("change-fee", value);
+      },
+      deep: true,
+    },
   },
 };
 </script>

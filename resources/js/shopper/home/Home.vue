@@ -78,7 +78,6 @@ export default {
   },
   methods: {
     addToCart(id) {
-      //   console.log(laroute.route("shop.products.cart", { id: id }));
       let _form = { quantity: 1 };
       axios
         .post(laroute.route("shop.products.cart", { id: id }), _form)
