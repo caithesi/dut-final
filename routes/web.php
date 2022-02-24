@@ -16,6 +16,7 @@ use App\Http\Controllers\Shopper\{
     OrderController,
     ShopperCategoryController,
     ShopperProductController,
+    ReccomnedController,
 };
 use App\Http\Controllers\Test;
 use App\Http\Controllers\UserController;

@@ -5,6 +5,9 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use App\Traits\StorageImageTraits;
 use App\Models\Product;
+use App\Models\Rate;
+use App\Types\Functional;
+use App\Types\MultiFunctional;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -76,5 +79,57 @@ class ProductService
         }
     }
 
-    // public function
+    public function rating($productId, Request $req)
+    {
+        $rate = new MultiFunctional(function ($name, $user_id) use ($req, $productId) {
+            $old = Rate::where('user_id',  auth()->user()->id)->where('product_id', $productId)->first();
+            if (!empty($old)) {
+                $old['rating'] = $req->$name;
+                $this->updateAvgRate($productId, $old['rating'], false);
+                return $old;
+            }
+            $new_rate = new Rate();
+            $new_rate['user_id'] = $user_id;
+            $new_rate['product_id'] = $productId;
+            $new_rate['rating'] = $req->$name;
+            $this->updateAvgRate($productId, $new_rate['rating']);
+            return $new_rate;
+        });
+
+        $save_rate = new Functional(function (Rate $rate) {
+            if ($rate->save()) {
+                return $rate;
+            }
+            return false;
+        });
+
+        $create_resp = new Functional(function ($rate) use ($req) {
+            if ($req->wantsJson()) {
+                if ($rate != false) {
+                    return response()->json($rate);
+                };
+            }
+        });
+
+
+        return $rate->andThen($save_rate)
+            ->andThen($create_resp)
+            ->apply('rating', auth()->user()->id);
+    }
+    private function updateAvgRate($productId, $rate, $isNewRate = true)
+    {
+        $product = Product::find($productId);
+        if ($isNewRate) {
+            $oldAvg =  $product['avg_rate'];
+            $oldTotal = $product['total_rate'];
+            $product['avg_rate'] = $oldAvg * $oldTotal / ($oldTotal + 1) + $rate / ($oldTotal + 1);
+            $product['total_rate']++;
+            $product->save();
+            return;
+        }
+        $deviantRate = $product['avg_rate'] - $rate;
+        $product['avg_rate'] = $product['avg_rate'] + $deviantRate / $product['total_rate'];
+        $product->save();
+        return;
+    }
 }

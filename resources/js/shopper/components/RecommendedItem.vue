@@ -9,74 +9,32 @@
       data-ride="carousel"
     >
       <div class="carousel-inner">
-        <div class="item active">
-          <div class="col-sm-4">
+        <div
+          v-for="(contain_count, index) in item_contain_count"
+          :key="index"
+          :class="itemActiveClass(index)"
+        >
+          <div
+            class="col-sm-4"
+            v-for="(item, id) in getItemCount(contain_count)"
+            :key="id"
+          >
             <div class="product-image-wrapper">
               <div class="single-products">
                 <div class="productinfo text-center">
-                  <img :src="'/eshopper/images/home/recommend1.jpg'" alt="" />
-                  <h2>$56</h2>
-                  <p>Easy Polo Black Edition</p>
-                  <a href="#" class="btn btn-default add-to-cart"
-                    ><i class="fa fa-shopping-cart"></i>Add to cart</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="product-image-wrapper">
-              <div class="single-products">
-                <div class="productinfo text-center">
-                  <img :src="'/eshopper/images/home/recommend2.jpg'" alt="" />
-                  <h2>$56</h2>
-                  <p>Easy Polo Black Edition</p>
-                  <a href="#" class="btn btn-default add-to-cart"
-                    ><i class="fa fa-shopping-cart"></i>Add to cart</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="product-image-wrapper">
-              <div class="single-products">
-                <div class="productinfo text-center">
-                  <img :src="'/eshopper/images/home/recommend3.jpg'" alt="" />
-                  <h2>$56</h2>
-                  <p>Easy Polo Black Edition</p>
-                  <a href="#" class="btn btn-default add-to-cart"
-                    ><i class="fa fa-shopping-cart"></i>Add to cart</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="col-sm-4">
-            <div class="product-image-wrapper">
-              <div class="single-products">
-                <div class="productinfo text-center">
-                  <img :src="'/eshopper/images/home/recommend1.jpg'" alt="" />
-                  <h2>$5000006</h2>
-                  <p>Easy Polo Black Edition</p>
-                  <a href="#" class="btn btn-default add-to-cart"
-                    ><i class="fa fa-shopping-cart"></i>Add to cart</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-4">
-            <div class="product-image-wrapper">
-              <div class="single-products">
-                <div class="productinfo text-center">
-                  <img :src="'/eshopper/images/home/recommend3.jpg'" alt="" />
-                  <h2>$56</h2>
-                  <p>Easy Polo Black Edition</p>
-                  <a href="#" class="btn btn-default add-to-cart"
+                  <a :href="productDetails(getRecPro(index, id)['id'])">
+                    <img
+                      :src="getRecPro(index, id)['feature_img_path']"
+                      alt=""
+                    />
+                  </a>
+                  <h2>{{ getRecPro(index, id)["name"] }}</h2>
+                  <p>{{ getRecPro(index, id)["price"] }}</p>
+                  <a
+                    href="#"
+                    class="btn btn-default add-to-cart"
+                    @click.prevent="addToCart($event)"
+                    :data-url="getRecPro(index, id)['id']"
                     ><i class="fa fa-shopping-cart"></i>Add to cart</a
                   >
                 </div>
@@ -106,7 +64,60 @@
 <script>
 import axios from "axios";
 
-export default {};
+export default {
+  data() {
+    return {
+      recommend: [],
+      item_count: 3,
+      item_contain_count: 1,
+      rec_pro: {},
+    };
+  },
+  beforeCreate() {
+    axios
+      .get(laroute.route("product.recomend"))
+      .then((resp) => resp.data)
+      .then((data) => {
+        this.recommend = data;
+        this.item_contain_count = Math.ceil(this.recommend.length / 3);
+      });
+  },
+  created() {},
+  mounted() {},
+  computed: {
+    itemActiveClass() {
+      return function (id) {
+        return id == 0 ? "item active" : "item";
+      };
+    },
+    getItemCount() {
+      return function (index) {
+        if (this.recommend.length - this.item_count * index > 0) {
+          return this.item_count;
+        } else {
+          return this.recommend.length - this.item_count * (index - 1);
+        }
+      };
+    },
+    productDetails() {
+      return function (id) {
+        return laroute.route("shop.product.show", { product: id });
+      };
+    },
+  },
+  methods: {
+    computedProductIndex(loopCount, index) {
+      return this.item_count * loopCount + index;
+    },
+    getRecPro(index, id) {
+      return this.recommend[this.computedProductIndex(index, id)];
+    },
+    addToCart($event) {
+      console.log($event.target.getAttribute("data-url"));
+      this.$emit("add-to-cart", $event.target.getAttribute("data-url"));
+    },
+  },
+};
 </script>
 
 <style>
