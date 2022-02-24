@@ -73,7 +73,6 @@
                 <td class="cart_delete">
                   <a
                     class="cart_quantity_delete"
-                    href=""
                     @click.prevent="deleteCart($event, id)"
                     ><i class="fa fa-times"></i
                   ></a>
@@ -88,7 +87,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-6">
-            <shipping />
+            <shipping @change-fee="changeShipFee" />
           </div>
           <div class="col-sm-6">
             <div class="total_area">
@@ -103,9 +102,11 @@
               </ul>
               <a class="btn btn-default update" href="">Update</a>
               <a
+                id="check-out-btn"
                 class="btn btn-default check_out"
                 href=""
                 @click.prevent="checkOut()"
+                onclick="return false;"
                 >Check Out</a
               >
             </div>
@@ -121,6 +122,9 @@ import axios from "axios";
 import Shipping from "./Shipping.vue";
 export default {
   components: { Shipping },
+  data() {
+    return {};
+  },
   props: {
     cart: {
       type: Object,
@@ -156,7 +160,6 @@ export default {
           if (resp.data.length == 0) {
             cart_quantity.value = 0;
             cart_price.innerHTML = 0;
-            console.log(cart_info);
             cart_info.remove();
             this.setPrice();
             return;
@@ -186,13 +189,20 @@ export default {
           Turbolinks.visit("/");
         })
         .catch((error) => {
-          console.log(error.response.status);
           if (error.response.status === 401) {
             Turbolinks.visit("/login");
           }
         });
     },
+    changeShipFee(value) {
+      if (value == null) {
+        document
+          .getElementById("check-out-btn")
+          .setAttribute("disable", "disable");
+      }
+    },
   },
+  watch: {},
 };
 </script>
 

@@ -42,6 +42,7 @@ Route::prefix('shop')->name('shop.')->group(function () {
     Route::post('/products/{id}/cart', [ShopperProductController::class, 'addToCart'])->name('products.cart');
     Route::get('/products/cart', [ShopperProductController::class, 'cartShow'])->name('products.cart-show');
     Route::post('/products/{id}/rating', [ShopperProductController::class, 'rating'])->name('products.rating')->middleware('auth');
+    Route::get("/product/recommend", [ReccomnedController::class, 'recommend'])->name('product.recommend');
     Route::resource('product', ShopperProductController::class);
 });
 Route::get('logged/user', [UserController::class, 'getLoginedUser'])->name('logged.user');
