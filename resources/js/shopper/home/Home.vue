@@ -7,32 +7,15 @@
           <div class="col-sm-3">
             <div class="left-sidebar">
               <shopper-category :categories="categories" />
-              <!--/category-products-->
-
-              <!-- <shopper-brand /> -->
-              <!--/brands_products-->
-
-              <!--/price-range-->
-              <!--shipping-->
-
-              <!-- <div class="shipping text-center">
-                <img :src="'/eshopper/images/home/shipping.jpg'" alt="" />
-              </div> -->
-              <!--/shipping-->
             </div>
           </div>
 
           <div class="col-sm-9 padding-right">
             <recommended-item />
-            <!--/recommended_items-->
             <feature-item
               :feature_products="feature_products"
               @add-to-cart="addToCart"
             />
-            <!--features_items-->
-            <!-- <category-tab :categories="category_products"/> -->
-
-            <!--/category-tab-->
           </div>
         </div>
       </div>
@@ -91,13 +74,11 @@ export default {
   },
   mounted() {},
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
     addToCart(id) {
-    //   console.log(laroute.route("shop.products.cart", { id: id }));
+      //   console.log(laroute.route("shop.products.cart", { id: id }));
       let _form = { quantity: 1 };
       axios
         .post(laroute.route("shop.products.cart", { id: id }), _form)

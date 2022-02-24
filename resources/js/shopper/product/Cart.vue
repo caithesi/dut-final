@@ -88,6 +88,9 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-6">
+            <shipping />
+          </div>
+          <div class="col-sm-6">
             <div class="total_area">
               <ul>
                 <li>
@@ -115,7 +118,9 @@
 
 <script>
 import axios from "axios";
+import Shipping from "./Shipping.vue";
 export default {
+  components: { Shipping },
   props: {
     cart: {
       type: Object,

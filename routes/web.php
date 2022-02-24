@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\{
     SliderController,
 };
 use App\Http\Controllers\Shopper\{
+    DeliveryController,
     HomeController,
     OrderController,
     ShopperCategoryController,
@@ -47,7 +48,14 @@ Route::get('/test', [Test::class, 'show']);
 Route::post('/checkout', [OrderController::class, 'checkOut'])->middleware('auth')->name('shop.check-out');
 Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
 Route::post('/login', [AdminController::class, 'postLoginAdmin']);
-
+Route::prefix('delivery')->name('delivery.')->group(function () {
+    Route::get('/', [DeliveryController::class, 'shipping']);
+    Route::get('/province', [DeliveryController::class, 'getProvince'])->name('address.province');
+    Route::get('/province/{provine_id}/district', [DeliveryController::class, 'getDistrict'])->name('address.district');
+    Route::get('/district/{district_id}/ward', [DeliveryController::class, 'getWard'])->name('address.ward');
+    Route::get('/fee/{district_id}/{ward_code}/{service_id}', [DeliveryController::class, 'getFee'])->name('fee');
+    Route::get('{district_id}/available-service/', [DeliveryController::class, 'getAvailableService'])->name('available-service');
+});
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware('auth')->name('dashboard');
