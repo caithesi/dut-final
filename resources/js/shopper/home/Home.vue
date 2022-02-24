@@ -81,8 +81,14 @@ export default {
       let _form = { quantity: 1 };
       axios
         .post(laroute.route("shop.products.cart", { id: id }), _form)
-        .then((resp) => {
-          console.log(resp);
+        .then((resp) => resp.data[0])
+        .then((data) => {
+          this.$swal(
+            `Added to your cart`,
+            `${data.name} is in your cart, check it now`,
+            "success"
+          );
+          console.log(data);
         });
     },
   },

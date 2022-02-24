@@ -123,7 +123,9 @@ import Shipping from "./Shipping.vue";
 export default {
   components: { Shipping },
   data() {
-    return {};
+    return {
+      shippingFee: null,
+    };
   },
   props: {
     cart: {
@@ -183,6 +185,14 @@ export default {
       this.updateCartQuantity($event, -cart_quantity.value, id);
     },
     checkOut() {
+      if (this.shippingFee == null) {
+        this.$swal({
+          icon: "error",
+          title: "Cant check out",
+          text: "You need to fill shipping infomation",
+        });
+        return;
+      }
       axios
         .post(laroute.route("shop.check-out"))
         .then((resp) => {
