@@ -26,7 +26,7 @@ class OrderService
                 ]);
             }
         };
-        session()->flush();
+        session()->forget('cart');
         $this->transactionExecWihReq($createOrder);
     }
 }

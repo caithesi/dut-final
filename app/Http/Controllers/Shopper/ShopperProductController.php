@@ -67,7 +67,8 @@ class ShopperProductController extends Controller
     {
         $categories = Category::where('parent_id', 0)->with('categoriesChildren')->get();
         $product_img = $product->productImages;
-        $rate = Rate::where('user_id',  auth()->user()->id)->where('product_id', $product->id)->first()->rating;
+        $user_rate = Rate::where('user_id',  auth()->user()->id)->where('product_id', $product->id)->first();
+        $rate = $user_rate == null? 0 : $user_rate->rating;
         $all_rate = Rate::where('product_id', $product->id)->get('rating')->toArray();
         return View::shopper(
             $this->viewFiles['show'],
