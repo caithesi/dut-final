@@ -11,8 +11,7 @@
           </div>
 
           <div class="col-sm-9 padding-right">
-            <recommended-item @add-to-cart="addToCart" />
-            <!--/recommended_items-->
+            <recommended-item />
             <feature-item
               :feature_products="feature_products"
               @add-to-cart="addToCart"
