@@ -87,7 +87,12 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-6">
-            <shipping @change-fee="changeShipFee" />
+            <shipping
+              @change-ship-info="changeShipInfo"
+              @ship-preview="shipPreview"
+              @ship-fee="changeShipFee"
+              @ship-date="changeShipDate"
+            />
           </div>
           <div class="col-sm-6">
             <div class="total_area">
@@ -97,7 +102,7 @@
                   <span id="total-user-cart-price"> </span>
                 </li>
                 <li>Eco Tax <span id="eco-tax">2</span></li>
-                <li>Shipping Cost <span>Free</span></li>
+                <li>Shipping Cost <span id="shipping-fee-show"></span></li>
                 <li>Total <span id="total-with-eco-tax">$61</span></li>
               </ul>
               <a class="btn btn-default update" href="">Update</a>
@@ -124,7 +129,8 @@ export default {
   components: { Shipping },
   data() {
     return {
-      shippingFee: null,
+      shipinfo: false,
+      sendable: false,
     };
   },
   props: {
@@ -185,7 +191,7 @@ export default {
       this.updateCartQuantity($event, -cart_quantity.value, id);
     },
     checkOut() {
-      if (this.shippingFee == null) {
+      if (!this.sendable || this.shipinfo == null) {
         this.$swal({
           icon: "error",
           title: "Cant check out",
@@ -193,22 +199,60 @@ export default {
         });
         return;
       }
+      const formData = new FormData();
+      for (const key in this.shipinfo) {
+        if (!Object.hasOwnProperty.call(this.shipinfo, key)) {
+          continue;
+        }
+        const element = this.shipinfo[key];
+        formData.append(key, element);
+      }
       axios
-        .post(laroute.route("shop.check-out"))
+        .post(laroute.route("shop.check-out"), formData)
         .then((resp) => {
-          Turbolinks.visit("/");
+          this.$swal({
+            icon: "success",
+            title: "Thank you",
+            text: "",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Turbolinks.visit("/");
+            }
+          });
         })
         .catch((error) => {
           if (error.response.status === 401) {
             Turbolinks.visit("/login");
+            return;
+          }
+          if (error.response.status === 400) {
+            this.$swal({
+              icon: "error",
+              title: "Some thing wrong",
+              text: error.response.data.msg,
+            });
+            return;
           }
         });
     },
+    changeShipInfo(value) {
+      this.shipinfo = value;
+    },
+    shipPreview(value) {},
     changeShipFee(value) {
       if (value == null) {
-        document
-          .getElementById("check-out-btn")
-          .setAttribute("disable", "disable");
+        value = 0;
+      }
+      document.getElementById("shipping-fee-show").innerText = value;
+      const total = document.getElementById("total-with-eco-tax");
+      total.innerHTML =
+        Number.parseInt(value) + Number.parseInt(total.innerHTML);
+    },
+    changeShipDate(value) {
+      if (value == "") {
+        this.sendable = false;
+      } else {
+        this.sendable = true;
       }
     },
   },

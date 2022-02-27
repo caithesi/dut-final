@@ -41,6 +41,8 @@ export default {
     addToCart($event) {
       this.$emit("add-to-cart", $event.target.getAttribute("data-url"));
     },
+  },
+  computed: {
     productDetails() {
       return function (id) {
         return laroute.route("shop.product.show", { product: id });

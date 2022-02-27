@@ -14,8 +14,9 @@ class OrderController extends Controller
     {
         $this->orderService = new OrderService();
     }
-    public function checkOut()
+    public function checkOut(Request $req)
     {
-        $this->orderService->checkOut();
+        $resp = $this->orderService->checkOut($req);
+        return $resp;
     }
 }

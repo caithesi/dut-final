@@ -56,7 +56,7 @@
                 </button>
               </div>
               <hr class="my-4" />
-              <div class="d-grid mb-2">
+              <!-- <div class="d-grid mb-2">
                 <button
                   class="btn btn-google btn-login text-uppercase fw-bold"
                   type="submit"
@@ -71,7 +71,7 @@
                 >
                   <i class="fab fa-facebook-f me-2"></i> Sign in with Facebook
                 </button>
-              </div>
+              </div> -->
             </form>
           </div>
         </div>
