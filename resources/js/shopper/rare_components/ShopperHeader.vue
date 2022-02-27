@@ -78,7 +78,7 @@
       <!--header-bottom-->
       <div class="container">
         <div class="row">
-          <div class="col-sm-9"></div>
+          <div class="col-sm-8"></div>
           <div class="col-sm-3">
             <div class="search_box pull-right">
               <input type="text" placeholder="Search" />
@@ -163,5 +163,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.search_box.pull-right {
+  width: 100%;
+}
 </style>
