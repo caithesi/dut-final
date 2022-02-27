@@ -33,6 +33,16 @@
                 id="delivery-message"
               ></textarea>
             </div>
+            <div class="form-group">
+              <p>Address</p>
+              <textarea
+                v-model="form.address"
+                name="message"
+                placeholder="Notes about your order, Special Notes for Delivery"
+                rows="4"
+                id="delivery-address"
+              ></textarea>
+            </div>
           </div>
           <div class="form-two">
             <div class="form-group">
@@ -71,13 +81,16 @@
                 @change.prevent="changeShipService($event)"
               ></select>
             </div>
-            <input
-              type="text"
-              placeholder="Total"
-              disabled
-              value="0"
-              :id="ship_fee_show_id"
-            />
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Total"
+                disabled
+                value="0"
+                :id="ship_leaddate"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -98,10 +111,10 @@ export default {
         district_id: null,
         ward_code: null,
         ship_service_id: null,
-        ship_service_fee: 0,
         user_name: null,
         user_phone: null,
         ship_msg: null,
+        address: null,
       },
 
       select_province_id: "provinceSelect",
@@ -109,6 +122,8 @@ export default {
       select_ward_id: "wardSelect",
       select_ship_service_id: "shipService",
       ship_fee_show_id: "total-ship-fee",
+      ship_leaddate: "ship-leaddate",
+      ship_fee: null,
     };
   },
   components: {
@@ -179,6 +194,30 @@ export default {
       this.changeShippingFee(resp.data);
       return resp.data;
     },
+    async getShippingPreview() {
+      const formData = new FormData();
+      for (const key in this.form) {
+        if (!Object.hasOwnProperty.call(this.form, key)) {
+          continue;
+        }
+        const element = this.form[key];
+        formData.append(key, element);
+      }
+      return axios
+        .post(laroute.route("delivery.preview"), formData)
+        .then((resp) => resp.data);
+    },
+    async getLeadTime() {
+      const formData = new FormData();
+      formData.append("district_id", this.form.district_id);
+      formData.append("ward_code", this.form.ward_code);
+      formData.append("service_id", this.form.ship_service_id);
+      return axios
+        .post(laroute.route("delivery.leadtime"), formData)
+        .then((resp) => {
+          return resp.data;
+        });
+    },
     createProvineSelect(data, id, key, value) {
       document.getElementById(id).textContent = "";
       let newData = [
@@ -225,7 +264,7 @@ export default {
         this.clearText([
           this.select_ward_id,
           this.select_ship_service_id,
-          this.ship_fee_show_id,
+          this.ship_leaddate,
         ]);
         this.createDistrictSelect(
           resp,
@@ -238,7 +277,7 @@ export default {
     async changeDistrict($event) {
       let district_id = $event.target.value;
       this.getWard(district_id).then((resp) => {
-        this.clearText([this.select_ship_service_id, this.ship_fee_show_id]);
+        this.clearText([this.select_ship_service_id, this.ship_leaddate]);
         this.createWardSelect(resp, "wardSelect", "WardCode", "WardName");
         this.getAvailableService(district_id).then((resp) => {
           this.createServiceSelect(
@@ -253,7 +292,7 @@ export default {
     async changeWard($event) {
       const district_id = document.getElementById("districtSelect").value;
       this.getAvailableService(district_id).then((resp) => {
-        this.clearText([this.ship_fee_show_id]);
+        this.clearText([this.ship_leaddate]);
         this.createServiceSelect(
           resp,
           "shipService",
@@ -263,17 +302,28 @@ export default {
       });
     },
     changeShipService($event) {
-      this.getFee().then(
-        (resp) => (document.getElementById("total-ship-fee").value = resp)
-      );
+      this.getShippingPreview().then((resp) => {
+        let expected_delivery_time = resp.expected_delivery_time;
+        if (expected_delivery_time == null) {
+          expected_delivery_time = "";
+          this.$swal({
+            icon: "error",
+            title: "We cant ship to your address",
+            text: "So sorry! Please chose other addess",
+          });
+        }
+        this.ship_fee = resp.total_fee;
+        this.$emit("ship-fee", this.ship_fee);
+        this.$emit("ship-date", expected_delivery_time);
+
+        document.getElementById(this.ship_leaddate).value = new Date(
+          expected_delivery_time
+        );
+      });
     },
     clearText(ids = []) {
       ids.forEach((id) => {
-        if (id === this.ship_fee_show_id) {
-          document.getElementById(id).value = 0;
-        } else {
-          document.getElementById(id).textContent = "";
-        }
+        document.getElementById(id).textContent = "";
       });
     },
     changeShippingFee(fee) {
@@ -298,20 +348,21 @@ export default {
             break;
           }
           if (key === "ship_msg") {
-            break;
+            continue;
           }
           const element = value[key];
           if (key === "ship_service_fee") {
             if (element == 0) {
-              this.$emit("change-fee", null);
               return;
             }
-          } else if (element == null || element.length == 0) {
-            this.$emit("change-fee", null);
+            continue;
+          }
+          if (element == null || element.length == 0) {
+            this.$emit("change-ship-info", null);
             return;
           }
         }
-        this.$emit("change-fee", value);
+        this.$emit("change-ship-info", value);
       },
       deep: true,
     },

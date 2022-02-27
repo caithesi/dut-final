@@ -36,15 +36,6 @@
                           ><i class="fa fa-shopping-cart"></i>Add to cart</a
                         >
                       </div>
-                      <!-- <div class="product-overlay">
-                        <div class="overlay-content">
-                          <h2>{{ item.price }}</h2>
-                          <p>{{ item.name }}</p>
-                          <a href="#" class="btn btn-default add-to-cart"
-                            ><i class="fa fa-shopping-cart"></i>Add to cart</a
-                          >
-                        </div>
-                      </div> -->
                     </div>
                     <div class="choose">
                       <ul class="nav nav-pills nav-justified">

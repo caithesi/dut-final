@@ -24,43 +24,6 @@
                   class="carousel slide"
                   data-ride="carousel"
                 >
-                  <!-- Wrapper for slides -->
-                  <!-- <div class="carousel-inner">
-                    <div class="item active">
-                      <a href=""
-                        ><img src="images/product-details/similar1.jpg" alt=""
-                      /></a>
-                      <a href=""
-                        ><img src="images/product-details/similar2.jpg" alt=""
-                      /></a>
-                      <a href=""
-                        ><img src="images/product-details/similar3.jpg" alt=""
-                      /></a>
-                    </div>
-                    <div class="item">
-                      <a href=""
-                        ><img src="images/product-details/similar1.jpg" alt=""
-                      /></a>
-                      <a href=""
-                        ><img src="images/product-details/similar2.jpg" alt=""
-                      /></a>
-                      <a href=""
-                        ><img src="images/product-details/similar3.jpg" alt=""
-                      /></a>
-                    </div>
-                    <div class="item">
-                      <a href=""
-                        ><img src="images/product-details/similar1.jpg" alt=""
-                      /></a>
-                      <a href=""
-                        ><img src="images/product-details/similar2.jpg" alt=""
-                      /></a>
-                      <a href=""
-                        ><img src="images/product-details/similar3.jpg" alt=""
-                      /></a>
-                    </div>
-                  </div> -->
-
                   <!-- Controls -->
                   <a
                     class="left item-control"
@@ -80,20 +43,17 @@
               </div>
               <div class="col-sm-7">
                 <div class="product-information">
-                  <!--/product-information-->
-                  <!-- <img
-                    src="images/product-details/new.jpg"
-                    class="newarrival"
-                    alt=""
-                  /> -->
                   <h2>{{ product.name }}</h2>
-                  <!-- <p>Web ID: 1089772</p> -->
-                  <!-- <img src="images/product-details/rating.png" alt="" /> -->
+
                   <span>
                     <span> {{ product.price }} </span>
                     <label>Quantity:</label>
                     <input type="text" value="3" />
-                    <button type="button" class="btn btn-fefault cart">
+                    <button
+                      type="button"
+                      class="btn btn-fefault cart"
+                      @click.prevent="addToCart"
+                    >
                       <i class="fa fa-shopping-cart"></i>
                       Add to cart
                     </button>
@@ -110,15 +70,6 @@
                     @rating-selected="setRating"
                     :rating="rate"
                   />
-                  <!-- <p><b>Availability:</b> In Stock</p>
-                  <p><b>Condition:</b> New</p>
-                  <p><b>Brand:</b> E-SHOPPER</p> -->
-                  <!-- <a href=""
-                    ><img
-                      src="images/product-details/share.png"
-                      class="share img-responsive"
-                      alt=""
-                  /></a> -->
                 </div>
                 <!--/product-information-->
               </div>
@@ -226,6 +177,22 @@ export default {
         this.all_rate.reduce((pre, current) => pre + current.rating, 0) /
         this.all_rate.length
       );
+    },
+    addToCart() {
+      let _form = { quantity: 1 };
+      axios
+        .post(
+          laroute.route("shop.products.cart", { id: this.product.id }),
+          _form
+        )
+        .then((resp) => resp.data[0])
+        .then((data) => {
+          this.$swal(
+            `Added to your cart`,
+            `${this.product.name} is in your cart, check it now`,
+            "success"
+          );
+        });
     },
   },
   mounted() {

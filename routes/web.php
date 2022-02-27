@@ -57,6 +57,8 @@ Route::prefix('delivery')->name('delivery.')->group(function () {
     Route::get('/district/{district_id}/ward', [DeliveryController::class, 'getWard'])->name('address.ward');
     Route::get('/fee/{district_id}/{ward_code}/{service_id}', [DeliveryController::class, 'getFee'])->name('fee');
     Route::get('{district_id}/available-service/', [DeliveryController::class, 'getAvailableService'])->name('available-service');
+    Route::post('preview', [DeliveryController::class, 'preview'])->name('preview');
+    Route::post('/leadtime', [DeliveryController::class, 'leadTime'])->name('leadtime');
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
