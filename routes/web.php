@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\{
     SliderController,
 };
 use App\Http\Controllers\Shopper\{
+    AuthController,
     DeliveryController,
     HomeController,
     OrderController,
@@ -48,8 +49,10 @@ Route::prefix('shop')->name('shop.')->group(function () {
 Route::get('logged/user', [UserController::class, 'getLoginedUser'])->name('logged.user');
 Route::get('/test', [Test::class, 'show']);
 Route::post('/checkout', [OrderController::class, 'checkOut'])->middleware('auth')->name('shop.check-out');
-Route::get('/login', [AdminController::class, 'loginAdmin'])->name('login');
-Route::post('/login', [AdminController::class, 'postLoginAdmin']);
+Route::get('/signup', [AuthController::class, 'signUp'])->name('signup');
+Route::post('/signup', [AuthController::class, 'postSignUp'])->name('post-signup');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'postLogin']);
 Route::prefix('delivery')->name('delivery.')->group(function () {
     Route::get('/', [DeliveryController::class, 'shipping']);
     Route::get('/province', [DeliveryController::class, 'getProvince'])->name('address.province');
@@ -61,8 +64,11 @@ Route::prefix('delivery')->name('delivery.')->group(function () {
     Route::post('/leadtime', [DeliveryController::class, 'leadTime'])->name('leadtime');
 });
 
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware('auth')->name('dashboard');
+Route::post('admin/Adminlogin', [AdminController::class, 'postLoginAdmin']);
+Route::get('admin/Adminlogin', [AdminController::class, 'loginAdmin'])->name('adminLogin');
+
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::resources([
         'menu' => MenuController::class,

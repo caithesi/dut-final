@@ -20,7 +20,6 @@ require('turbolinks').start()
 // Boot the current Vue component
 document.addEventListener('turbolinks:load', (event) => {
     const root = document.getElementById('app')
-    // console.log(typeof root.dataset.props)
     if (app) {
         app.$destroy(true)
     }

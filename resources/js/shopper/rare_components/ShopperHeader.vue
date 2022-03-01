@@ -52,7 +52,7 @@
                   >
                 </li>
                 <li>
-                  <a v-if="checkEmptyUser()" href="login.html"
+                  <a v-if="checkEmptyUser()" href="login"
                     ><i class="fa fa-lock"></i> Login</a
                   >
                   <template v-else>
