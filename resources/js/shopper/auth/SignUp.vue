@@ -1,86 +1,67 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card border-0 shadow rounded-3 my-5">
-          <div class="card-body p-4 p-sm-5">
-            <h5 class="card-title text-center mb-5 fw-light fs-5">Sign Up</h5>
-            <form @submit.prevent="submit">
-              <div class="form-floating mb-3">
-                <input
-                  type="email"
-                  class="form-control"
-                  id="floatingInput"
-                  placeholder="name@example.com"
-                  required="required"
-                  name="email"
-                  v-model="form.email"
-                />
-                <label for="floatingInput">Email address</label>
-                <div class="text-danger" v-if="errors.has('email')">
-                  {{ errors.first("email") }}
-                </div>
-              </div>
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="user-name"
-                  placeholder="Your Name"
-                  required="required"
-                  name="name"
-                  v-model="form.name"
-                />
-                <label for="floatingInput">Email address</label>
-                <div class="text-danger" v-if="errors.has('email')">
-                  {{ errors.first("email") }}
-                </div>
-              </div>
-              <div class="form-floating mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="floatingPassword"
-                  placeholder="Password"
-                  required="required"
-                  name="password"
-                  v-model="form.password"
-                  @input="checkConfirmPassword"
-                />
-                <label for="floatingPassword">Password</label>
-                <div class="text-danger" v-if="errors.has('password')">
-                  {{ errors.first("password") }}
-                </div>
-              </div>
-              <div class="form-floating mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="confirmPassword"
-                  placeholder="Confirm Password"
-                  required="required"
-                  @input="checkConfirmPassword"
-                />
-                <label for="floatingPassword">Confirm Password</label>
-                <div class="text-danger" v-if="confirmError != ''">
-                  {{ confirmError }}
-                </div>
-              </div>
+  <div>
+    <form @submit.prevent="submit" style="border: 1px solid #ccc">
+      <div class="container">
+        <h1>Sign Up</h1>
+        <p>Please fill in this form to create an account.</p>
+        <hr />
 
-              <div class="d-grid">
-                <button
-                  class="btn btn-primary btn-login text-uppercase fw-bold"
-                  type="submit"
-                >
-                  Sign Up
-                </button>
-              </div>
-              <hr class="my-4" />
-            </form>
-          </div>
+        <label for="email"><b>Email</b></label>
+        <input
+          type="email"
+          placeholder="Enter Email"
+          name="email"
+          required
+          v-model="form.email"
+        />
+        <div class="text-danger" v-if="errors.has('email')">
+          {{ errors.first("email") }}
+        </div>
+        <label for="name"><b>Name</b></label>
+        <input
+          type="text"
+          placeholder="Enter Name"
+          name="name"
+          required
+          v-model="form.name"
+        />
+        <div class="text-danger" v-if="errors.has('name')">
+          {{ errors.first("name") }}
+        </div>
+        <label for="password"><b>Password</b></label>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          name="password"
+          required
+          v-model="form.password"
+          @input="checkConfirmPassword"
+        />
+        <div class="text-danger" v-if="errors.has('password')">
+          {{ errors.first("password") }}
+        </div>
+        <label for="password-repeatt"><b>Repeat Password</b></label>
+        <input
+          type="password"
+          placeholder="Repeat Password"
+          name="password-repeat"
+          id="password-repeat"
+          required
+          @input="checkConfirmPassword"
+        />
+        <div class="text-danger" v-if="confirmError != ''">
+          {{ confirmError }}
+        </div>
+
+        <div class="clearfix">
+          <a href="/login">
+            <button type="button" class="loginbtn">Login</button></a
+          >
+
+          <button type="submit" class="signupbtn">Sign Up</button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -125,7 +106,7 @@ export default {
         });
     },
     checkConfirmPassword() {
-      const confirm = document.getElementById("confirmPassword").value;
+      const confirm = document.getElementById("password-repeat").value;
       if (confirm !== this.form.password) {
         this.confirmError = "Password confirm is wrong";
       } else {
@@ -143,24 +124,84 @@ export default {
 
 <style scoped>
 body {
-  background: #007bff;
-  background: linear-gradient(to right, #0062e6, #33aeff);
+  font-family: Arial, Helvetica, sans-serif;
+}
+* {
+  box-sizing: border-box;
 }
 
-.btn-login {
-  font-size: 0.9rem;
-  letter-spacing: 0.05rem;
-  padding: 0.75rem 1rem;
+/* Full-width input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
 }
 
-.btn-google {
-  color: white !important;
-  background-color: #ea4335;
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
 }
 
-.btn-facebook {
-  color: white !important;
-  background-color: #3b5998;
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04aa6d;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+/* Extra styles for the cancel button */
+.loginbtn {
+  padding: 14px 20px;
+  background-color: blue;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.loginbtn,
+.signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.loginbtn {
+  color: white;
+}
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .loginbtn,
+  .signupbtn {
+    width: 100%;
+  }
 }
 </style>

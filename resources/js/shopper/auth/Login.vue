@@ -1,67 +1,51 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto" id="lvl3-container">
-        <div class="card border-0 shadow rounded-3 my-5">
-          <div class="card-body p-4 p-sm-5">
-            <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
-            <form @submit.prevent="submit">
-              <div class="form-floating mb-3">
-                <input
-                  type="email"
-                  class="form-control"
-                  id="floatingInput"
-                  placeholder="name@example.com"
-                  required="required"
-                  name="email"
-                  v-model="form.email"
-                />
-                <label for="floatingInput">Email address</label>
-                <div class="text-danger" v-if="errors.has('email')">
-                  {{ errors.get("email") }}
-                </div>
-              </div>
-              <div class="form-floating mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="floatingPassword"
-                  placeholder="Password"
-                  required="required"
-                  name="password"
-                  v-model="form.password"
-                />
-                <label for="floatingPassword">Password</label>
-              </div>
+  <div id="lvl0-container">
+    <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
 
-              <div class="form-check mb-3">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="rememberPasswordCheck"
-                  name="remember_me"
-                  v-model="form.remember_me"
-                />
-                <label class="form-check-label" for="rememberPasswordCheck">
-                  Remember password
-                </label>
-              </div>
-
-              <div class="d-grid">
-                <a href="#" @click.prevent="submit" class="btn btn-primary">
-                  Sign in
-                </a>
-              </div>
-              <div class="d-grid">
-                <a href="http://" class="btn btn-primary"> Sign Up </a>
-              </div>
-              <hr class="my-4" />
-            </form>
-          </div>
+    <form @submit.prevent="submit">
+      <div class="container">
+        <label for="email-input"><b>Username</b></label>
+        <input
+          type="email"
+          placeholder="Enter Email"
+          name="email"
+          id="email-input"
+          required
+          v-model="form.email"
+        />
+        <div class="text-danger" v-if="errors.has('email')">
+          {{ errors.get("email") }}
         </div>
+
+        <label for="password-input"><b>Password</b></label>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          name="password"
+          required
+          id="password-input"
+          v-model="form.password"
+        />
+
+        <button type="submit">Login</button>
+        <label>
+          <input
+            type="checkbox"
+            name="remember_me"
+            v-model="form.remember_me"
+            id="remember-me-check"
+          />
+          Remember me
+        </label>
       </div>
-    </div>
+
+      <div class="container" style="background-color: #f1f1f1">
+        <button type="button" class="signup-btn" @click.prevent="visitSignUp">
+          Sign Up
+        </button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -91,36 +75,78 @@ export default {
           this.errors = new Errors(error.response.data.errors);
         });
     },
+    visitSignUp() {
+      Turbolinks.visit("/signup");
+    },
   },
 };
 </script>
 
 <style scoped>
 body {
-  background: #007bff;
-  background: linear-gradient(to right, #0062e6, #33aeff);
+  font-family: Arial, Helvetica, sans-serif;
+}
+form {
+  border: 3px solid #f1f1f1;
 }
 
-.btn-login {
-  font-size: 0.9rem;
-  letter-spacing: 0.05rem;
-  padding: 0.75rem 1rem;
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #04aa6d;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
   width: 100%;
 }
 
-.btn-google {
-  color: white !important;
-  background-color: #ea4335;
+button:hover {
+  opacity: 0.8;
 }
 
-.btn-facebook {
-  color: white !important;
-  background-color: #3b5998;
+.signup-btn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: green;
 }
-#lvl3-container {
-  margin: auto;
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
 }
-a.btn {
-  width: 100%;
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+    display: block;
+    float: none;
+  }
+  .cancelbtn {
+    width: 100%;
+  }
 }
 </style>
