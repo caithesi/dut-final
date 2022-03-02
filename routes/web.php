@@ -67,7 +67,7 @@ Route::prefix('delivery')->name('delivery.')->group(function () {
 Route::post('admin/Adminlogin', [AdminController::class, 'postLoginAdmin']);
 Route::get('admin/Adminlogin', [AdminController::class, 'loginAdmin'])->name('adminLogin');
 
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::resources([
