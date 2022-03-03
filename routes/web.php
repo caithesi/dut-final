@@ -63,7 +63,7 @@ Route::prefix('delivery')->name('delivery.')->group(function () {
     Route::post('preview', [DeliveryController::class, 'preview'])->name('preview');
     Route::post('/leadtime', [DeliveryController::class, 'leadTime'])->name('leadtime');
 });
-
+Route::get('/search', [ShopperProductController::class, 'searchProduct'])->name('search.product');
 Route::post('admin/Adminlogin', [AdminController::class, 'postLoginAdmin']);
 Route::get('admin/Adminlogin', [AdminController::class, 'loginAdmin'])->name('adminLogin');
 

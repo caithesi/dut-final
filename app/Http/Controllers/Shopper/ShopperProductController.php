@@ -72,7 +72,7 @@ class ShopperProductController extends Controller
         $product_img = $product->productImages;
 
         $user_rate = Rate::where('user_id',  auth()->user()->id)->where('product_id', $product->id)->first();
-        $rate = $user_rate == null? 0 : $user_rate->rating;
+        $rate = $user_rate == null ? 0 : $user_rate->rating;
         $all_rate = Rate::where('product_id', $product->id)->get('rating')->toArray();
         return View::shopper(
             $this->viewFiles['show'],
@@ -152,5 +152,14 @@ class ShopperProductController extends Controller
     public function rating(Request $req, $id)
     {
         return $this->productService->rating($id, $req);
+    }
+    public function searchProduct(Request $req)
+    {
+        $search = $req->query('name');
+        $dataName = Product::where('name', 'LIKE', "%$search%")
+            ->select('id', 'name')
+            ->take(6)
+            ->get();
+        return $dataName;
     }
 }
