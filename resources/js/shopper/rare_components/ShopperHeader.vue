@@ -47,6 +47,9 @@
             <div class="shop-menu pull-right">
               <ul class="nav navbar-nav">
                 <li>
+                  <search-bar />
+                </li>
+                <li>
                   <a :href="showCartRoute"
                     ><i class="fa fa-shopping-cart"></i> Cart</a
                   >
@@ -76,16 +79,6 @@
     <!--/header-middle-->
     <div class="header-bottom">
       <!--header-bottom-->
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-9"></div>
-          <div class="col-sm-3">
-            <div class="search_box pull-right">
-              <input type="text" placeholder="Search" />
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <!--/header-bottom-->
   </header>
@@ -93,7 +86,9 @@
 
 <script>
 import axios from "axios";
+import SearchBar from "../components/SearchBar.vue";
 export default {
+  components: { SearchBar },
   props: {},
   data() {
     return {
@@ -163,5 +158,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>
