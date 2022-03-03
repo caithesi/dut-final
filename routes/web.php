@@ -67,7 +67,7 @@ Route::get('/search', [ShopperProductController::class, 'searchProduct'])->name(
 Route::post('admin/Adminlogin', [AdminController::class, 'postLoginAdmin']);
 Route::get('admin/Adminlogin', [AdminController::class, 'loginAdmin'])->name('adminLogin');
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::resources([
