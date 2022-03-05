@@ -14,6 +14,7 @@ class OrderService
     private $shopId = 84875;
     private $shopDistrict = 1882;
     private $shopWardCode = "330702";
+    private $orderDetail;
     use TransactionFunction;
     public function checkOut(Request $req)
     {
@@ -27,7 +28,7 @@ class OrderService
         $createOrder = function () use ($carts, $user, $orderCode) {
             $order = new Order();
             $order['user_id'] = $user->id;
-            $order['total'] = 0;
+            $order['total'] = $this->total($this->orderDetail);
             $order['order_code'] = $orderCode;
             $order->save();
             foreach ($carts as $key => $cart) {
@@ -57,6 +58,7 @@ class OrderService
             ];
             array_push($order, $detail);
         }
+        $this->orderDetail = $order;
         return $order;
     }
     public function total(array $order)
