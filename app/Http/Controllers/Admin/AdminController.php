@@ -46,6 +46,6 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return View::component('pages.dashboard');
+        return redirect('admin/orders');
     }
 }
