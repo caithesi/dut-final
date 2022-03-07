@@ -103,7 +103,14 @@ import Multiselect from "vue-multiselect";
 import axios from "axios";
 
 export default {
-  name: "app",
+  props: {
+    user_delivery_default: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
   data() {
     return {
       form: {
